@@ -17,6 +17,12 @@ export default class ListProducts extends Component {
 
   handleList = async () => {
     const listOfProducts = await getCategories();
+    this.handleChange();
+  }
+
+  handleChange = async () => {
+    const listOfProducts = await getCategories();
+    console.log(listOfProducts);
     this.setState({
       data: listOfProducts,
     });
@@ -70,7 +76,7 @@ export default class ListProducts extends Component {
                   {list.name}
                 </button>
               </li>
-            ))}
+            ))};
           </ul>
         </div>
       </section>
