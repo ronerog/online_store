@@ -7,22 +7,18 @@ export default class ListProducts extends Component {
     this.state = {
       data: [],
       product: '',
-      productList: '',
+      productId: '',
+      productList: [],
     };
   }
 
   componentDidMount() {
     this.handleList();
+    this.handleClick();
   }
 
   handleList = async () => {
     const listOfProducts = await getCategories();
-    this.handleChange();
-  }
-
-  handleChange = async () => {
-    const listOfProducts = await getCategories();
-    console.log(listOfProducts);
     this.setState({
       data: listOfProducts,
     });
@@ -30,16 +26,14 @@ export default class ListProducts extends Component {
 
   handleChange = async ({ target }) => {
     const { value } = target;
-    // const { product } = this.state;
     this.setState({ product: value });
   };
 
   handleClick = async () => {
-    const { product } = this.state;
-    const searchProduct = await getProductsFromCategoryAndQuery(product);
-    console.log(searchProduct);
+    const { product, productId } = this.state;
+    const searchProduct = await getProductsFromCategoryAndQuery(productId, product);
     this.setState({
-      productList: searchProduct,
+      productList: searchProduct.results,
     });
   };
 
@@ -76,8 +70,20 @@ export default class ListProducts extends Component {
                   {list.name}
                 </button>
               </li>
-            ))};
+            ))}
           </ul>
+        </div>
+        <div>
+
+          { (productList.length) ? (productList.map((item) => (
+            <div Key={ item.id } data-testid="product">
+              <h2>{item.title}</h2>
+              <img src={ item.thumbnail } alt={ item.title } />
+              <p>{item.price}</p>
+            </div>
+          )))
+            : <h3>Nenhum produto foi encontrado</h3> }
+
         </div>
       </section>
     );
