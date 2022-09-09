@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { getCategories, getProductsFromCategoryAndQuery } from '../services/api';
 
 export default class ListProducts extends Component {
@@ -76,10 +77,31 @@ export default class ListProducts extends Component {
         <div>
 
           { (productList.length) ? (productList.map((item) => (
-            <div Key={ item.id } data-testid="product">
-              <h2>{item.title}</h2>
-              <img src={ item.thumbnail } alt={ item.title } />
-              <p>{item.price}</p>
+            <div key={ item.id }>
+              <Link
+                data-testid="product-detail-link"
+                to={ {
+                  pathname: '/ProductCard',
+                  state: item,
+                } }
+              >
+                {' '}
+                <button
+                  type="button"
+                  onClick={ productList.id }
+                >
+                  Especificações
+                </button>
+              </Link>
+              <div
+                Key={ item.id }
+                data-testid="product"
+              >
+                <h2>{item.title}</h2>
+                <img src={ item.thumbnail } alt={ item.title } />
+                <p>{item.price}</p>
+              </div>
+
             </div>
           )))
             : <h3>Nenhum produto foi encontrado</h3> }
