@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { getCategories, getProductsFromCategoryAndQuery } from '../services/api';
 
 export default class ListProducts extends Component {
@@ -6,15 +7,13 @@ export default class ListProducts extends Component {
     super();
     this.state = {
       data: [],
-      product: '',
-      productId: '',
+      query: '',
       productList: [],
     };
   }
 
   componentDidMount() {
     this.handleList();
-    this.handleClick();
   }
 
   handleList = async () => {
@@ -26,24 +25,25 @@ export default class ListProducts extends Component {
 
   handleChange = async ({ target }) => {
     const { value } = target;
-    this.setState({ product: value });
+    this.setState({ query: value });
   };
 
-  handleClick = async () => {
-    const { product, productId } = this.state;
-    const searchProduct = await getProductsFromCategoryAndQuery(productId, product);
+  handleClick = async ({ target: { id } }) => {
+    const { query } = this.state;
+    const searchProduct = await getProductsFromCategoryAndQuery(id, query);
+    console.log(searchProduct);
     this.setState({
       productList: searchProduct.results,
     });
   };
 
   render() {
-    const { data, product, productList } = this.state;
+    const { data, query, productList } = this.state;
     return (
       <section>
         <input
           type="text"
-          value={ product }
+          value={ query }
           data-testid="query-input"
           onChange={ this.handleChange }
         />
@@ -64,8 +64,8 @@ export default class ListProducts extends Component {
                 <button
                   data-testid="category"
                   type="button"
-                  id="cartegories"
-                  onChange={ this.handleList }
+                  id={ list.id }
+                  onClick={ this.handleClick }
                 >
                   {list.name}
                 </button>
@@ -76,10 +76,24 @@ export default class ListProducts extends Component {
         <div>
 
           { (productList.length) ? (productList.map((item) => (
-            <div Key={ item.id } data-testid="product">
-              <h2>{item.title}</h2>
-              <img src={ item.thumbnail } alt={ item.title } />
-              <p>{item.price}</p>
+            <div key={ item.id }>
+              <Link
+                data-testid="product-detail-link"
+                to={ {
+                  pathname: '/ProductCard',
+                  state: item,
+                } }
+              >
+                {' '}
+
+                <div
+                  data-testid="product"
+                >
+                  <h2>{item.title}</h2>
+                  <img src={ item.thumbnail } alt={ item.title } />
+                  <p>{item.price}</p>
+                </div>
+              </Link>
             </div>
           )))
             : <h3>Nenhum produto foi encontrado</h3> }
