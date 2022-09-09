@@ -11,7 +11,7 @@ function App() {
       <Route exact path="/" component={ ListProducts } />
       <Route exact path="/cart" component={ ShoppingCart } />
       <Route exact path="/ProductCard" component={ ProductCard } />
-      <Link to="/cart" data-testid="shopping-cart-button"> Carrinho </Link>
+      <Link data-testid="shopping-cart-button" to="/cart"> Carrinho </Link>
 
     </BrowserRouter>
   );
