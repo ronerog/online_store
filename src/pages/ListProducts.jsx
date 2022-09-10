@@ -37,6 +37,20 @@ export default class ListProducts extends Component {
     });
   };
 
+  // handleAddCartClick = () => {
+  /*  const { productList } = this.state;
+    console.log(productList);
+    let teste = JSON.parse(localStorage.getItem('teste'));
+    console.log(teste);
+    if (teste === null) {
+      teste = [];
+      teste.push(productList);
+    } else {
+      (teste.push(productList));
+      localStorage.setItem('teste', JSON.stringify(productList));
+    } */
+  // };
+
   render() {
     const { data, query, productList } = this.state;
     return (
@@ -94,6 +108,23 @@ export default class ListProducts extends Component {
                   <p>{item.price}</p>
                 </div>
               </Link>
+              <Link
+                data-testid="product-add-to-cart"
+                to={ {
+                  pathname: '/cart',
+                  state: item,
+                } }
+              >
+                <button
+                  type="button"
+                  onChange={ this.handleAddCartClick }
+                  // value={ item }
+                >
+                  Adicionar ao carrinho
+                </button>
+
+              </Link>
+
             </div>
           )))
             : <h3>Nenhum produto foi encontrado</h3> }
