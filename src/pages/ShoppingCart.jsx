@@ -6,7 +6,6 @@ class ShoppingCart extends React.Component {
   render() {
     const { location: { state } } = this.props;
     const { title, price, thumbnail, id } = state;
-    // const { item } = this.state;
 
     return (
       <section>
@@ -16,13 +15,6 @@ class ShoppingCart extends React.Component {
           <p data-testid="shopping-cart-product-name">{ title }</p>
           <p>{ price }</p>
           <img src={ thumbnail } alt={ title } />
-          {/*  <button
-            type="button"
-            onClick={ this.handleAddCartClick(item) }
-          >
-            localStorage
-
-          </button> */}
         </div>
         <p data-testid="shopping-cart-empty-message">Seu carrinho está vazio</p>
       </section>

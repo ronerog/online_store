@@ -31,25 +31,14 @@ export default class ListProducts extends Component {
   handleClick = async ({ target: { id } }) => {
     const { query } = this.state;
     const searchProduct = await getProductsFromCategoryAndQuery(id, query);
-    console.log(searchProduct);
     this.setState({
       productList: searchProduct.results,
     });
   };
 
-  // handleAddCartClick = () => {
-  /*  const { productList } = this.state;
-    console.log(productList);
-    let teste = JSON.parse(localStorage.getItem('teste'));
-    console.log(teste);
-    if (teste === null) {
-      teste = [];
-      teste.push(productList);
-    } else {
-      (teste.push(productList));
-      localStorage.setItem('teste', JSON.stringify(productList));
-    } */
-  // };
+  handleAddCartClick = (element) => {
+    localStorage.setItem('cart', JSON.stringify(element));
+  };
 
   render() {
     const { data, query, productList } = this.state;
@@ -117,8 +106,7 @@ export default class ListProducts extends Component {
               >
                 <button
                   type="button"
-                  onChange={ this.handleAddCartClick }
-                  // value={ item }
+                  onClick={ () => this.handleAddCartClick(item) }
                 >
                   Adicionar ao carrinho
                 </button>
