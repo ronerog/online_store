@@ -9,8 +9,6 @@ export default class ListProducts extends Component {
       data: [],
       query: '',
       productList: [],
-      cart: [],
-      /* countCart: '', */
     };
   }
 
@@ -39,19 +37,10 @@ export default class ListProducts extends Component {
   };
 
   handleAddCartClick = (element) => {
-    //  const { cart } = this.state;
     const storageProduct = JSON.parse(localStorage.getItem('cart')) || [];
     const products = [...storageProduct, element];
     localStorage.setItem('cart', JSON.stringify(products));
-    // cart.push(element);
-    // this.setState({
-    //   cart: [...element, element],
-    // });
   };
-
-  /*  handleQuantity = () => {
-
-  } */
 
   render() {
     const { data, query, productList } = this.state;

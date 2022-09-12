@@ -17,12 +17,10 @@ class ShoppingCart extends React.Component {
 
   render() {
     const { stateCart } = this.state;
-    // const { title, price, thumbnail, id } = stateCart;
 
     return (
       <section>
         <Link to="/"> Página Inicial </Link>
-        {/* passar no valor de zero o valor do array.lenght */}
 
         <h1>Carrinho de Compras</h1>
         { (stateCart.length > 0)
