@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 class ShoppingCart extends React.Component {
   state = {
-    stateCart: '',
+    stateCart: [],
   };
 
   componentDidMount() {
