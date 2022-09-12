@@ -9,6 +9,8 @@ export default class ListProducts extends Component {
       data: [],
       query: '',
       productList: [],
+      cart: [],
+      /* countCart: '', */
     };
   }
 
@@ -37,11 +39,20 @@ export default class ListProducts extends Component {
   };
 
   handleAddCartClick = (element) => {
+    //  const { cart } = this.state;
     localStorage.setItem('cart', JSON.stringify(element));
+    // cart.push(element);
+    this.setState({
+      cart: element,
+    });
   };
 
+  /*  handleQuantity = () => {
+
+  } */
+
   render() {
-    const { data, query, productList } = this.state;
+    const { data, query, productList, cart } = this.state;
     return (
       <section>
         <input
@@ -92,7 +103,7 @@ export default class ListProducts extends Component {
                 <div
                   data-testid="product"
                 >
-                  <h2>{item.title}</h2>
+                  <h2 data-testid="shopping-cart-product-name">{item.title}</h2>
                   <img src={ item.thumbnail } alt={ item.title } />
                   <p>{item.price}</p>
                 </div>
@@ -110,9 +121,10 @@ export default class ListProducts extends Component {
                 >
                   Adicionar ao carrinho
                 </button>
-
+                {
+                  cart && (<p>{cart.length}</p>)
+                }
               </Link>
-
             </div>
           )))
             : <h3>Nenhum produto foi encontrado</h3> }
