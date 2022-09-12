@@ -40,10 +40,12 @@ export default class ListProducts extends Component {
 
   handleAddCartClick = (element) => {
     //  const { cart } = this.state;
-    localStorage.setItem('cart', JSON.stringify(element));
+    const storageProduct = JSON.parse(localStorage.getItem('cart')) || [];
+    const products = [...storageProduct, element];
+    localStorage.setItem('cart', JSON.stringify(products));
     // cart.push(element);
     this.setState({
-      cart: element,
+      cart: [...element, element],
     });
   };
 
@@ -112,7 +114,6 @@ export default class ListProducts extends Component {
                 data-testid="product-add-to-cart"
                 to={ {
                   pathname: '/cart',
-                  state: item,
                 } }
               >
                 <button

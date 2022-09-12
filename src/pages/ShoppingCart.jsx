@@ -1,41 +1,50 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
 
 class ShoppingCart extends React.Component {
+  state = {
+    stateCart: '',
+  };
+
+  componentDidMount() {
+    this.handleLocalStorage();
+  }
+
+  handleLocalStorage = () => {
+    const item = JSON.parse(localStorage.getItem('cart'));
+    this.setState({ stateCart: item });
+  };
+
   render() {
-    const { location: { state } } = this.props;
-    const { title, price, thumbnail, id } = state;
-    // const { handleAddCartClick } = this.props;
+    const { stateCart } = this.state;
+    // const { title, price, thumbnail, id } = stateCart;
 
     return (
       <section>
         <Link to="/"> Página Inicial </Link>
         {/* passar no valor de zero o valor do array.lenght */}
-        <p
-          data-testid="shopping-cart-product-quantity"
-        >
-          itens adicionados ao carrinho:0
-
-        </p>
         <h1>Carrinho de Compras</h1>
-        <div key={ id }>
-          <p data-testid="shopping-cart-product-name">{ title }</p>
-          <p>{ price }</p>
-          <img src={ thumbnail } alt={ title } />
-          <button type="button">0</button>
-        </div>
-        <p data-testid="shopping-cart-empty-message">Seu carrinho está vazio</p>
+        { (stateCart.length)
+          ? (stateCart.map((item) => (
+            <div key={ item.id }>
+              <p data-testid="shopping-cart-product-name">{ item.title }</p>
+              <p>{ item.price }</p>
+              <img src={ item.thumbnail } alt={ item.title } />
+              <button
+                data-testid="shopping-cart-product-quantity"
+                type="button"
+              >
+                {stateCart.filter((qt) => qt.id === item.id).length}
+
+              </button>
+            </div>)))
+          : (<p data-testid="shopping-cart-empty-message">Seu carrinho está vazio</p>)}
+
       </section>
     );
   }
 }
 
 ShoppingCart.propTypes = {
-  title: PropTypes.string.isRequired,
-  price: PropTypes.number.isRequired,
-  thumbnail: PropTypes.string.isRequired,
-  id: PropTypes.string.isRequired,
-  location: PropTypes.string.isRequired,
 };
 export default ShoppingCart;
