@@ -13,6 +13,7 @@ class ProductCard extends React.Component {
         <img data-testid="product-detail-image" src={ thumbnail } alt={ title } />
         <Link
           to="/cart"
+          data-testid="shopping-cart-button"
         >
           <button
             type="button"

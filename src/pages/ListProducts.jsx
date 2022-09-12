@@ -44,9 +44,9 @@ export default class ListProducts extends Component {
     const products = [...storageProduct, element];
     localStorage.setItem('cart', JSON.stringify(products));
     // cart.push(element);
-    this.setState({
-      cart: [...element, element],
-    });
+    // this.setState({
+    //   cart: [...element, element],
+    // });
   };
 
   /*  handleQuantity = () => {
@@ -54,7 +54,7 @@ export default class ListProducts extends Component {
   } */
 
   render() {
-    const { data, query, productList, cart } = this.state;
+    const { data, query, productList } = this.state;
     return (
       <section>
         <input
@@ -110,22 +110,15 @@ export default class ListProducts extends Component {
                   <p>{item.price}</p>
                 </div>
               </Link>
-              <Link
+
+              <button
                 data-testid="product-add-to-cart"
-                to={ {
-                  pathname: '/cart',
-                } }
+                type="button"
+                onClick={ () => this.handleAddCartClick(item) }
               >
-                <button
-                  type="button"
-                  onClick={ () => this.handleAddCartClick(item) }
-                >
-                  Adicionar ao carrinho
-                </button>
-                {
-                  cart && (<p>{cart.length}</p>)
-                }
-              </Link>
+                Adicionar ao carrinho
+              </button>
+
             </div>
           )))
             : <h3>Nenhum produto foi encontrado</h3> }

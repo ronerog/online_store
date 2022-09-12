@@ -11,7 +11,7 @@ class ShoppingCart extends React.Component {
   }
 
   handleLocalStorage = () => {
-    const item = JSON.parse(localStorage.getItem('cart'));
+    const item = JSON.parse(localStorage.getItem('cart')) || [];
     this.setState({ stateCart: item });
   };
 
@@ -23,20 +23,22 @@ class ShoppingCart extends React.Component {
       <section>
         <Link to="/"> Página Inicial </Link>
         {/* passar no valor de zero o valor do array.lenght */}
+
         <h1>Carrinho de Compras</h1>
-        { (stateCart.length)
+        { (stateCart.length > 0)
           ? (stateCart.map((item) => (
             <div key={ item.id }>
               <p data-testid="shopping-cart-product-name">{ item.title }</p>
               <p>{ item.price }</p>
               <img src={ item.thumbnail } alt={ item.title } />
-              <button
-                data-testid="shopping-cart-product-quantity"
-                type="button"
-              >
-                {stateCart.filter((qt) => qt.id === item.id).length}
+              {stateCart.filter((qt) => qt.id === item.id) && (
+                <button
+                  data-testid="shopping-cart-product-quantity"
+                  type="button"
+                >
+                  {stateCart.filter((qt) => qt.id === item.id).length}
 
-              </button>
+                </button>)}
             </div>)))
           : (<p data-testid="shopping-cart-empty-message">Seu carrinho está vazio</p>)}
 
