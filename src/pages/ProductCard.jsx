@@ -9,8 +9,18 @@ class ProductCard extends React.Component {
   handleAddtoCart = (element) => {
     element.quantity = 1;
     const storageProduct = JSON.parse(localStorage.getItem('cart')) || [];
-    const products = [...storageProduct, element];
-    localStorage.setItem('cart', JSON.stringify(products));
+    const exist = storageProduct.some((item) => item.id === element.id);
+    if (!exist) {
+      const products = [...storageProduct, element];
+      localStorage.setItem('cart', JSON.stringify(products));
+    } else {
+      const newStorage = storageProduct.map((item) => {
+        if (item.id === element.id) {
+          item.quantity += 1;
+        } return item;
+      });
+      localStorage.setItem('cart', JSON.stringify(newStorage));
+    }
   };
 
   render() {
