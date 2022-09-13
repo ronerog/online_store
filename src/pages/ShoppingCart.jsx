@@ -16,11 +16,16 @@ class ShoppingCart extends React.Component {
     this.setState({ stateCart: item });
   };
 
-  // handleDecrease = (menos) => {
-  //   const item = JSON.parse(localStorage.getItem('cart')) || [];
-  //   const test1 = item.filter((qt) => qt.id !== menos.id).length;
-  //   this.setState({ stateCart: test1 });
-  // };
+  handleDecrease = (menos) => {
+    const item = JSON.parse(localStorage.getItem('cart')) || [];
+    const quantidade = item
+      .reduce((acc, curr) => { acc[curr.id] = curr.length; return acc; }, {});
+    const sub = quantidade - 1;
+    const { id } = menos;
+    this.setState(({ quantidades: prevQuantidades }) => ({
+      quantidades: { [id]: sub, ...prevQuantidades },
+    }));
+  };
 
   handleIncrease = (mais) => {
     const item = JSON.parse(localStorage.getItem('cart')) || [];
@@ -55,7 +60,7 @@ class ShoppingCart extends React.Component {
               <img src={ item.thumbnail } alt={ item.title } />
               <button
                 type="button"
-                // onClick={ () => this.handleDecrease(item.id) }
+                onClick={ () => this.handleDecrease(item) }
                 data-testid="product-decrease-quantity"
               >
                 -
