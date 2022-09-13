@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 class ShoppingCart extends React.Component {
   state = {
     stateCart: [],
-    quantidades: {},
   };
 
   componentDidMount() {
@@ -19,6 +18,7 @@ class ShoppingCart extends React.Component {
   handleDecrease = (product) => {
     const item = JSON.parse(localStorage.getItem('cart')) || [];
     const quantidade = item.filter((qt) => qt.id === product.id).length;
+    console.log(quantidade);
     const sub = quantidade - 1;
     const { id } = product;
     this.setState(({ quantidades: prevQuantidades }) => ({
@@ -31,8 +31,7 @@ class ShoppingCart extends React.Component {
     const quantidade = item.filter((qt) => qt.id === product.id).length;
     /* const quantidade = item
       .reduce((total, curr) => {
-        total[curr.id] = curr.length;
-        return total;
+        total[curr.id] = total + curr.length;
       }); */
     const soma = quantidade + 1;
     const { id } = product;
@@ -64,8 +63,8 @@ class ShoppingCart extends React.Component {
               <img src={ item.thumbnail } alt={ item.title } />
 
               <p data-testid="shopping-cart-product-quantity">
-                {/*   { stateCart.filter((e) => e.id === item.id).length} */}
-                {quantidades[item.id]}
+                { stateCart.filter((e) => e.id === item.id).length}
+
               </p>
 
               <button
