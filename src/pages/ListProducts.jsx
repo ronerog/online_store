@@ -31,10 +31,26 @@ export default class ListProducts extends Component {
   handleClick = async ({ target: { id } }) => {
     const { query } = this.state;
     const searchProduct = await getProductsFromCategoryAndQuery(id, query);
-    console.log(searchProduct);
     this.setState({
       productList: searchProduct.results,
     });
+  };
+
+  handleAddCartClick = (element) => {
+    element.quantity = 1;
+    const storageProduct = JSON.parse(localStorage.getItem('cart')) || [];
+    const exist = storageProduct.some((item) => item.id === element.id);
+    if (!exist) {
+      const products = [...storageProduct, element];
+      localStorage.setItem('cart', JSON.stringify(products));
+    } else {
+      const newStorage = storageProduct.map((item) => {
+        if (item.id === element.id) {
+          item.quantity += 1;
+        } return item;
+      });
+      localStorage.setItem('cart', JSON.stringify(newStorage));
+    }
   };
 
   render() {
@@ -89,11 +105,20 @@ export default class ListProducts extends Component {
                 <div
                   data-testid="product"
                 >
-                  <h2>{item.title}</h2>
+                  <h2 data-testid="shopping-cart-product-name">{item.title}</h2>
                   <img src={ item.thumbnail } alt={ item.title } />
                   <p>{item.price}</p>
                 </div>
               </Link>
+
+              <button
+                data-testid="product-add-to-cart"
+                type="button"
+                onClick={ () => this.handleAddCartClick(item) }
+              >
+                Adicionar ao carrinho
+              </button>
+
             </div>
           )))
             : <h3>Nenhum produto foi encontrado</h3> }
