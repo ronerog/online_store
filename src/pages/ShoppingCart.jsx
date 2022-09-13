@@ -18,8 +18,7 @@ class ShoppingCart extends React.Component {
 
   handleDecrease = (menos) => {
     const item = JSON.parse(localStorage.getItem('cart')) || [];
-    const quantidade = item
-      .reduce((acc, curr) => { acc[curr.id] = curr.item.length; return acc; }, {});
+    const quantidade = item.filter((qt) => qt.id === menos.id).length;
     const sub = quantidade - 1;
     const { id } = menos;
     this.setState(({ quantidades: prevQuantidades }) => ({
