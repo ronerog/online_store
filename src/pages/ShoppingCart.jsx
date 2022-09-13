@@ -16,21 +16,26 @@ class ShoppingCart extends React.Component {
     this.setState({ stateCart: item });
   };
 
-  handleDecrease = (menos) => {
+  handleDecrease = (product) => {
     const item = JSON.parse(localStorage.getItem('cart')) || [];
-    const quantidade = item.filter((qt) => qt.id === menos.id).length;
+    const quantidade = item.filter((qt) => qt.id === product.id).length;
     const sub = quantidade - 1;
-    const { id } = menos;
+    const { id } = product;
     this.setState(({ quantidades: prevQuantidades }) => ({
       quantidades: { [id]: sub, ...prevQuantidades },
     }));
   };
 
-  handleIncrease = (mais) => {
+  handleIncrease = (product) => {
     const item = JSON.parse(localStorage.getItem('cart')) || [];
-    const quantidade = item.filter((qt) => qt.id === mais.id).length;
+    const quantidade = item.filter((qt) => qt.id === product.id).length;
+    /* const quantidade = item
+      .reduce((total, curr) => {
+        total[curr.id] = curr.length;
+        return total;
+      }); */
     const soma = quantidade + 1;
-    const { id } = mais;
+    const { id } = product;
     this.setState(({ quantidades: prevQuantidades }) => ({
       quantidades: { [id]: soma, ...prevQuantidades },
     }));
@@ -57,6 +62,12 @@ class ShoppingCart extends React.Component {
               <p data-testid="shopping-cart-product-name">{item.title}</p>
               <p>{item.price}</p>
               <img src={ item.thumbnail } alt={ item.title } />
+
+              <p data-testid="shopping-cart-product-quantity">
+                {/*   { stateCart.filter((e) => e.id === item.id).length} */}
+                {quantidades[item.id]}
+              </p>
+
               <button
                 type="button"
                 onClick={ () => this.handleDecrease(item) }
@@ -64,9 +75,7 @@ class ShoppingCart extends React.Component {
               >
                 -
               </button>
-              <p data-testid="shopping-cart-product-quantity">
-                {quantidades[item.id]}
-              </p>
+
               <button
                 type="button"
                 onClick={ () => this.handleIncrease(item) }
