@@ -20,7 +20,11 @@ class ShoppingCart extends React.Component {
     const index = stateCart.findIndex((idx) => idx.id === product.id);
     const newArr = [...stateCart];
     newArr[index].quantity -= 1;
-    this.setState({ stateCart: newArr });
+    if (newArr[index].quantity < 1) {
+      newArr[index].quantity = 1;
+    } else {
+      this.setState({ stateCart: newArr });
+    }
   };
 
   handleIncrease = (product) => {
