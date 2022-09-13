@@ -37,6 +37,7 @@ export default class ListProducts extends Component {
   };
 
   handleAddCartClick = (element) => {
+    element.quantity = 1;
     const storageProduct = JSON.parse(localStorage.getItem('cart')) || [];
     const products = [...storageProduct, element];
     localStorage.setItem('cart', JSON.stringify(products));

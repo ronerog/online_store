@@ -16,28 +16,19 @@ class ShoppingCart extends React.Component {
   };
 
   handleDecrease = (product) => {
-    const item = JSON.parse(localStorage.getItem('cart')) || [];
-    const quantidade = item.filter((qt) => qt.id === product.id).length;
-    console.log(quantidade);
-    const sub = quantidade - 1;
-    const { id } = product;
-    this.setState(({ quantidades: prevQuantidades }) => ({
-      quantidades: { [id]: sub, ...prevQuantidades },
-    }));
+    const { stateCart } = this.state;
+    const index = stateCart.findIndex((idx) => idx.id === product.id);
+    const newArr = [...stateCart];
+    newArr[index].quantity -= 1;
+    this.setState({ stateCart: newArr });
   };
 
   handleIncrease = (product) => {
-    const item = JSON.parse(localStorage.getItem('cart')) || [];
-    const quantidade = item.filter((qt) => qt.id === product.id).length;
-    /* const quantidade = item
-      .reduce((total, curr) => {
-        total[curr.id] = total + curr.length;
-      }); */
-    const soma = quantidade + 1;
-    const { id } = product;
-    this.setState(({ quantidades: prevQuantidades }) => ({
-      quantidades: { [id]: soma, ...prevQuantidades },
-    }));
+    const { stateCart } = this.state;
+    const index = stateCart.findIndex((idx) => idx.id === product.id);
+    const newArr = [...stateCart];
+    newArr[index].quantity += 1;
+    this.setState({ stateCart: newArr });
   };
 
   handleRemove = (obj) => {
@@ -48,7 +39,7 @@ class ShoppingCart extends React.Component {
   };
 
   render() {
-    const { stateCart, quantidades } = this.state;
+    const { stateCart } = this.state;
 
     return (
       <section>
@@ -63,8 +54,7 @@ class ShoppingCart extends React.Component {
               <img src={ item.thumbnail } alt={ item.title } />
 
               <p data-testid="shopping-cart-product-quantity">
-                { stateCart.filter((e) => e.id === item.id).length}
-
+                {item.quantity}
               </p>
 
               <button
