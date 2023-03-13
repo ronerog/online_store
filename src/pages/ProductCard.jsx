@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import './ProductCard.css';
 
 class ProductCard extends React.Component {
   state = {
@@ -27,7 +28,7 @@ class ProductCard extends React.Component {
     const { location: { state } } = this.props;
     const { title, price, thumbnail, id } = state;
     return (
-      <div key={ id }>
+      <div key={ id } className="product-card">
         <p data-testid="product-detail-name">{ title }</p>
         <p data-testid="product-detail-price">{ price }</p>
         <img data-testid="product-detail-image" src={ thumbnail } alt={ title } />

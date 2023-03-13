@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { getCategories, getProductsFromCategoryAndQuery } from '../services/api';
+import './ListProducts.css';
+import './ProductCard.css';
 
 export default class ListProducts extends Component {
   constructor() {
@@ -104,20 +106,20 @@ export default class ListProducts extends Component {
 
                 <div
                   data-testid="product"
+                  className="product-card"
                 >
                   <h2 data-testid="shopping-cart-product-name">{item.title}</h2>
                   <img src={ item.thumbnail } alt={ item.title } />
                   <p>{item.price}</p>
+                  <button
+                    data-testid="product-add-to-cart"
+                    type="button"
+                    onClick={ () => this.handleAddCartClick(item) }
+                  >
+                    Adicionar ao carrinho
+                  </button>
                 </div>
               </Link>
-
-              <button
-                data-testid="product-add-to-cart"
-                type="button"
-                onClick={ () => this.handleAddCartClick(item) }
-              >
-                Adicionar ao carrinho
-              </button>
 
             </div>
           )))
